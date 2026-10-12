@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-[#E9EEEC] font-body text-[16px] text-ink antialiased;
+    overflow-x: clip;
+  }
+  img {
+    -webkit-user-drag: none;
+  }
+  /* Playfair defaults to old-style figures; dates and countdowns need lining numerals. */
+  .font-heading,
+  .font-body,
+  .font-text {
+    font-variant-numeric: lining-nums;
+  }
+  :focus-visible {
+    outline: 2px solid #b8893e;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: #d9b26baa;
+  }
+}
+
+@layer components {
+  /* The phone-shaped column; centred with a soft shadow on wider screens, like the reference. */
+  .page {
+    @apply relative mx-auto min-h-screen w-full max-w-[430px] overflow-x-clip bg-gradient-to-b from-[#D6E7E9] via-[#E6EEE9] to-[#CFE3E6] shadow-[0_0_60px_-18px_rgba(8,55,63,0.5)];
+  }
+
+  /* Every content section is its own rounded card, separated from its neighbours by clear space. */
+  .card-section {
+    @apply relative mx-3 mt-7 overflow-hidden rounded-[32px] border border-white/70 shadow-card;
+  }
+
+  /* Tile with notched (scalloped) corners, used for the countdown. */
+  .scallop {
+    --r: 11px;
+    -webkit-mask:
+      radial-gradient(var(--r) at 0 0, #0000 98%, #000) top left,
+      radial-gradient(var(--r) at 100% 0, #0000 98%, #000) top right,
+      radial-gradient(var(--r) at 0 100%, #0000 98%, #000) bottom left,
+      radial-gradient(var(--r) at 100% 100%, #0000 98%, #000) bottom right;
+    -webkit-mask-size: 51% 51%;
+    -webkit-mask-repeat: no-repeat;
+    mask:
+      radial-gradient(var(--r) at 0 0, #0000 98%, #000) top left,
+      radial-gradient(var(--r) at 100% 0, #0000 98%, #000) top right,
+      radial-gradient(var(--r) at 0 100%, #0000 98%, #000) bottom left,
+      radial-gradient(var(--r) at 100% 100%, #0000 98%, #000) bottom right;
+    mask-size: 51% 51%;
+    mask-repeat: no-repeat;
+  }
+  .scallop-inner {
+    --r: 9px;
+  }
+
+  .teal-text {
+    background: linear-gradient(100deg, #0c4952 0%, #1c7480 40%, #0c4952 60%, #2a8a96 80%, #0c4952 100%);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .field {
+    @apply w-full rounded-2xl border border-gold-soft/80 bg-white/80 py-3.5 pl-12 pr-4 font-body text-[17px] font-medium text-ink placeholder:text-ink-soft/70 focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/30;
+  }
+
+  .btn-teal {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-b from-teal to-teal-deep px-7 py-3.5 font-body text-[18px] font-semibold tracking-wide text-white shadow-card transition-transform duration-200 hover:-translate-y-px active:translate-y-0 disabled:opacity-60;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-teal bg-white/60 px-6 py-2.5 font-body text-[17px] font-semibold text-teal transition-colors duration-200 hover:bg-white;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Teal button: a soft light sweep passes across every few seconds. */
+.btn-teal {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-teal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.35) 50%, transparent 65%);
+  transform: translateX(-130%);
+  animation: btn-shine 3.8s ease-in-out infinite;
+}
+@keyframes btn-shine {
+  0%, 55% { transform: translateX(-130%); }
+  100% { transform: translateX(130%); }
+}
+
+.gold-shimmer {
+  background: linear-gradient(100deg, #b8893e 0%, #f1dba5 30%, #d9b26b 50%, #fff3cf 60%, #b8893e 100%);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
